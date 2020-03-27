@@ -5,6 +5,8 @@
 struct Block {
 	int x;
 	int y;
+	int relativeX;
+	int relativeY;
 	int type; // 0 -> 6 for sprite
 	bool falling;
 
@@ -16,9 +18,11 @@ struct Block {
 
 	Block() = default;
 
-	Block(int x, int y, int type) {
+	Block(int x, int y, int relativeX, int relativeY, int type) {
 		this->x = x;
 		this->y = y;
+		this->relativeX = relativeX;
+		this->relativeY = relativeY;
 		this->type = type;
 		falling = true;
 

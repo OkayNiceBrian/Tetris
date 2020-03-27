@@ -25,6 +25,10 @@ bool areBlocksColliding(Tetromino currentTetromino, vector<Block> * blockFilledR
 	return collide;
 }
 
+void gameOver() {
+
+}
+
 
 int main()
 {
@@ -61,10 +65,11 @@ int main()
 				case sf::Keyboard::Down:
 					curSpeed = maxSpeed;
 					break;
-				case sf::Keyboard::Space:
-					for (int i = 0; i < 4; i++) {
-						//currentTetromino[i].rotate();
-					}
+				case sf::Keyboard::X:
+					currentTetromino.rotateRight();	
+					break;
+				case sf::Keyboard::Z:
+					currentTetromino.rotateLeft();
 					break;
 				}
 				break;
@@ -85,7 +90,12 @@ int main()
 					for (int j = 0; j < 4; j++) {
 						currentTetromino.blockList[j].falling = false;
 
-						blockFilledRows[(SCREEN_HEIGHT - currentTetromino.blockList[j].y + (TILE_SIZE)) / 24].push_back(currentTetromino.blockList[j]);
+						if ((SCREEN_HEIGHT - currentTetromino.blockList[j].y + (TILE_SIZE)) / TILE_SIZE >= 24) {
+							gameOver();
+							break;
+						}
+
+						blockFilledRows[(SCREEN_HEIGHT - currentTetromino.blockList[j].y - TILE_SIZE) / TILE_SIZE].push_back(currentTetromino.blockList[j]);
 					}
 					currentTetromino = Tetromino::getRandomTetromino();
 				}
