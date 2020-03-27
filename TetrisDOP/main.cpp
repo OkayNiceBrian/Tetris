@@ -5,6 +5,7 @@
 #include <vector>
 #include <random>
 #include <time.h>
+#include <iostream>
 using namespace std;
 
 bool areBlocksColliding(Tetromino currentTetromino, vector<Block> * blockFilledRows) {
@@ -25,13 +26,18 @@ bool areBlocksColliding(Tetromino currentTetromino, vector<Block> * blockFilledR
 	return collide;
 }
 
-void gameOver() {
-
+void gameOver(vector<Block> *blockFilledRows) {
+	for (int i = 0; i < 24; i++) {
+		blockFilledRows[i].clear();
+	}
 }
 
 
 int main()
 {
+	int frames = 0;
+	sf::Clock clock;
+
 	srand(time(NULL));
 
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Tetris");
@@ -43,6 +49,8 @@ int main()
 	currentTetromino = Tetromino::getRandomTetromino();
 
 	vector<Block> blockFilledRows[24];
+
+	clock.restart();
 
 	while (window.isOpen())
 	{
@@ -82,7 +90,7 @@ int main()
 			}
 		}
 
-		window.clear();
+		window.clear(sf::Color::Magenta);
 		
 		if (frameCount >= curSpeed) {
 			for (int i = 3; i >= 0; i--) {
@@ -91,7 +99,7 @@ int main()
 						currentTetromino.blockList[j].falling = false;
 
 						if ((SCREEN_HEIGHT - currentTetromino.blockList[j].y + (TILE_SIZE)) / TILE_SIZE >= 24) {
-							gameOver();
+							gameOver(blockFilledRows);
 							break;
 						}
 
@@ -103,6 +111,16 @@ int main()
 		}
 		
 		for (int i = 0; i < 24; i++) {
+
+			if (blockFilledRows[i].size() >= 10) {
+				for (int j = i; j < 23; j++) {
+					for (int k = 0; k < blockFilledRows[j + 1].size(); k++) {
+						blockFilledRows[j + 1][k].y += TILE_SIZE;
+					}
+					blockFilledRows[j] = blockFilledRows[j + 1];
+				}
+			}
+
 			for (int j = 0; j < blockFilledRows[i].size(); j++) {
 				blockFilledRows[i][j].update(&window);
 			}
@@ -111,11 +129,18 @@ int main()
 
 		currentTetromino.update(&window);
 		
+		if (frameCount >= curSpeed) {
+			frameCount = 0;
+		}
+
+		frames++;
 
 		window.display();
 
-		if (frameCount >= curSpeed) {
-			frameCount = 0;
+		if (clock.getElapsedTime().asMilliseconds() >= 1000) {
+			std::cout << "framerate: " << frames << "\n";
+			frames = 0;
+			clock.restart();
 		}
 
 		frameCount++;

@@ -45,6 +45,8 @@ struct Block {
 			}
 		}
 		
+		setPosition(x, y);
+
 		draw(window);
 
 		frames++;
