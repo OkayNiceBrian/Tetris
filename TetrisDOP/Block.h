@@ -1,4 +1,5 @@
 #pragma once
+
 #include "SFML\Graphics.hpp"
 #include "globalvars.h"
 struct Block {
@@ -26,8 +27,8 @@ struct Block {
 		texture.loadFromFile(blockTextureNames[this->type]);
 		texture.setSmooth(false);
 		sprite = sf::Sprite(texture);
-		sprite.setOrigin(24.f, 24.f);
-		
+		sprite.setOrigin(0, 24.f);
+		sprite.setTexture(texture);
 		setPosition(this->x, this->y);
 		
 	}

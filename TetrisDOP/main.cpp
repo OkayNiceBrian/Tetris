@@ -1,40 +1,20 @@
 #include "SFML\Graphics.hpp"
 #include "Block.h"
+#include "Tetromino.h"
 #include "globalvars.h"
 #include <vector>
 #include <random>
 #include <time.h>
 using namespace std;
 
-Block * getRandomTetromino() {
-
-	static Block toReturn[4];
-
-	int randomTetInt = rand() % 7;
-
-	int index = 0;
-	while (index < 4) {
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				if (tetForm[randomTetInt][0][j][i] == 1) {
-					toReturn[index] = Block((SCREEN_WIDTH / 2 - TILE_SIZE) + (i * TILE_SIZE), SCREEN_HEIGHT - (TILE_SIZE * 24) + (j * TILE_SIZE), randomTetInt);
-					index++;
-				}
-			}
-		}
-	}
-
-	return toReturn;
-}
-
-bool areBlocksColliding(Block * currentTetromino, vector<Block> * blockFilledRows) {
+bool areBlocksColliding(Tetromino currentTetromino, vector<Block> * blockFilledRows) {
 	bool collide = false;
 
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 24; j++) {
 			for (int k = 0; k < blockFilledRows[j].size(); k++) {
 
-				if (currentTetromino[i].x == blockFilledRows[j][k].x && currentTetromino[i].y + TILE_SIZE == blockFilledRows[j][k].y) {
+				if (currentTetromino.blockList[i].x == blockFilledRows[j][k].x && currentTetromino.blockList[i].y + TILE_SIZE == blockFilledRows[j][k].y) {
 					collide = true;
 				}
 				
@@ -55,14 +35,13 @@ int main()
 	window.setSize(sf::Vector2u(360, 900));
 	window.setPosition(sf::Vector2i(400, 0));
 
-	Block *currentTetromino;
-	currentTetromino = getRandomTetromino();
+	Tetromino currentTetromino;
+	currentTetromino = Tetromino::getRandomTetromino();
 
 	vector<Block> blockFilledRows[24];
 
 	while (window.isOpen())
 	{
-		bool move;
 
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -74,44 +53,10 @@ int main()
 			case sf::Event::KeyPressed: 
 				switch (event.key.code) {
 				case sf::Keyboard::Right: 
-					move = true;
-					for (int i = 0; i < 4; i++) {
-						for (int j = 0; j < 24; j++) {
-							for (int k = 0; k < blockFilledRows[j].size(); k++) {
-								if (currentTetromino[i].x + TILE_SIZE == blockFilledRows[j][k].x && currentTetromino[i].y == blockFilledRows[j][k].y) {
-									move = false;
-								}
-							}
-						}
-						if (currentTetromino[i].x == SCREEN_WIDTH) {
-							move = false;
-						}
-					}
-					if (move) {
-						for (int i = 0; i < 4; i++) {
-							currentTetromino[i].right();
-						}
-					}
+					currentTetromino.right(blockFilledRows);
 					break;
 				case sf::Keyboard::Left: 
-					move = true;
-					for (int i = 0; i < 4; i++) {
-						for (int j = 0; j < 24; j++) {
-							for (int k = 0; k < blockFilledRows[j].size(); k++) {
-								if (currentTetromino[i].x - TILE_SIZE == blockFilledRows[j][k].x && currentTetromino[i].y == blockFilledRows[j][k].y) {
-									move = false;
-								}
-							}
-						}
-						if (currentTetromino[i].x - TILE_SIZE == 0) {
-							move = false;
-						}
-					}
-					if (move) {
-						for (int i = 0; i < 4; i++) {
-							currentTetromino[i].left();
-						}
-					}
+					currentTetromino.left(blockFilledRows);
 					break;
 				case sf::Keyboard::Down:
 					curSpeed = maxSpeed;
@@ -136,13 +81,13 @@ int main()
 		
 		if (frameCount >= curSpeed) {
 			for (int i = 3; i >= 0; i--) {
-				if (currentTetromino[i].y >= SCREEN_HEIGHT - TILE_SIZE || areBlocksColliding(currentTetromino, blockFilledRows)) {
+				if (currentTetromino.blockList[i].y >= SCREEN_HEIGHT - TILE_SIZE || areBlocksColliding(currentTetromino, blockFilledRows)) {
 					for (int j = 0; j < 4; j++) {
-						currentTetromino[j].falling = false;
+						currentTetromino.blockList[j].falling = false;
 
-						blockFilledRows[(SCREEN_HEIGHT - currentTetromino[j].y + (TILE_SIZE)) / 24].push_back(currentTetromino[j]);
+						blockFilledRows[(SCREEN_HEIGHT - currentTetromino.blockList[j].y + (TILE_SIZE)) / 24].push_back(currentTetromino.blockList[j]);
 					}
-					currentTetromino = getRandomTetromino();
+					currentTetromino = Tetromino::getRandomTetromino();
 				}
 			}
 		}
@@ -152,9 +97,9 @@ int main()
 				blockFilledRows[i][j].update(&window);
 			}
 		}
-		for (int i = 3; i >= 0; i--) {
-			currentTetromino[i].update(&window);
-		}
+		
+
+		currentTetromino.update(&window);
 		
 
 		window.display();

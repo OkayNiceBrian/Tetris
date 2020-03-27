@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClInclude Include="Block.h" />
     <ClInclude Include="globalvars.h" />
+    <ClInclude Include="Tetromino.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
