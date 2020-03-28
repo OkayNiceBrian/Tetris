@@ -1,4 +1,6 @@
+#include "SFML\System.hpp"
 #include "SFML\Graphics.hpp"
+#include "SFML\Audio.hpp"
 #include "Block.h"
 #include "Tetromino.h"
 #include "globalvars.h"
@@ -51,6 +53,11 @@ int main()
 	backgroundSprite.setTexture(background);
 	backgroundSprite.setPosition(0, 0);
 
+	sf::Music music;
+	music.openFromFile("tetrisMusicLoop.ogg");
+	music.play();
+	music.setLoop(true);
+
 	Tetromino currentTetromino;
 	currentTetromino = Tetromino::getRandomTetromino();
 
@@ -60,6 +67,7 @@ int main()
 
 	while (window.isOpen())
 	{
+		
 
 		sf::Event event;
 		while (window.pollEvent(event))
