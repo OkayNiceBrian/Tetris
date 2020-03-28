@@ -4,7 +4,7 @@
 using namespace std;
 
 const int SCREEN_WIDTH = 240;
-const int SCREEN_HEIGHT = 600;
+const int SCREEN_HEIGHT = 427;
 const int TILE_SIZE = 24;
 
 int frameCount = 0;

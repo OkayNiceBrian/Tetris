@@ -18,7 +18,7 @@ struct Tetromino {
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 4; j++) {
 					if (tetForm[this->type][0][j][i] == 1) {
-						blockList[index] = Block((SCREEN_WIDTH / 2 - TILE_SIZE * 2) + (i * TILE_SIZE), SCREEN_HEIGHT - (TILE_SIZE * 24) + (j * TILE_SIZE), i, j, this->type);
+						blockList[index] = Block((SCREEN_WIDTH / 2 - TILE_SIZE * 2) + (i * TILE_SIZE), SCREEN_HEIGHT - (TILE_SIZE * 20) + (j * TILE_SIZE), i, j, this->type);
 						index++;
 					}
 				}
