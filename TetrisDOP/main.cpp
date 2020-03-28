@@ -45,6 +45,12 @@ int main()
 	window.setSize(sf::Vector2u(SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2));
 	window.setPosition(sf::Vector2i(400, 0));
 
+	sf::Texture background;
+	background.loadFromFile("tetrisBackground.png");
+	sf::Sprite backgroundSprite;
+	backgroundSprite.setTexture(background);
+	backgroundSprite.setPosition(0, 0);
+
 	Tetromino currentTetromino;
 	currentTetromino = Tetromino::getRandomTetromino();
 
@@ -90,7 +96,9 @@ int main()
 			}
 		}
 
-		window.clear(sf::Color::Magenta);
+		window.clear(sf::Color::Black);
+
+		window.draw(backgroundSprite);
 		
 		if (frameCount >= curSpeed) {
 			for (int i = 3; i >= 0; i--) {
@@ -98,7 +106,7 @@ int main()
 					for (int j = 0; j < 4; j++) {
 						currentTetromino.blockList[j].falling = false;
 
-						if ((SCREEN_HEIGHT - currentTetromino.blockList[j].y + (TILE_SIZE)) / TILE_SIZE >= 24) {
+						if ((SCREEN_HEIGHT - currentTetromino.blockList[j].y + (TILE_SIZE)) / TILE_SIZE >= 20) {
 							gameOver(blockFilledRows);
 							break;
 						}
