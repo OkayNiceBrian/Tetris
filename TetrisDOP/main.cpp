@@ -44,7 +44,7 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Tetris");
 	window.setFramerateLimit(60);
-	window.setSize(sf::Vector2u(SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2));
+	window.setSize(sf::Vector2u((SCREEN_WIDTH + 0) * 2, SCREEN_HEIGHT * 2));
 	window.setPosition(sf::Vector2i(400, 0));
 
 	sf::Texture background;
