@@ -34,50 +34,74 @@ struct Tetromino {
 		}
 	}
 
-	void rotateRight() {
-		curForm++;
-		if (curForm > 3) {
-			curForm = 0;
+	void rotate(vector<Block> blockFilledRows[24], int dir) {
+		// dir: 1 = clockwise, -1 = counterclockwise
+		int desiredForm = curForm + dir;
+		if (desiredForm > 3) {
+			desiredForm = 0;
 		}
+		else if (desiredForm < 0) {
+			desiredForm = 3;
+		}
+
+		// initial block listS
+		Block IBL[4] = {blockList[0], blockList[1], blockList[2], blockList[3]};
+		// initial rotation block list
+		Block IRBL[4] = {Block(), Block(), Block(), Block()};
 
 		int index = 0;
 		while (index < 4) {
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 4; j++) {
-					if (tetForm[this->type][curForm][j][i] == 1) {
+					if (tetForm[this->type][desiredForm][j][i] == 1) {
 						// set the block coords
 						Block *temp = &blockList[index];
 						temp->setPosition(temp->x + ((i - temp->relativeX) * TILE_SIZE), temp->y + ((j - temp->relativeY) * TILE_SIZE));
 						temp->relativeX = i;
 						temp->relativeY = j;
 						index++;
+
+						IRBL[index - 1] = blockList[index - 1];
 					}
 				}
 			}
 		}
-	}
 
-	void rotateLeft() {
-		curForm--;
-		if (curForm < 0) {
-			curForm = 3;
-		}
-
-		int index = 0;
-		while (index < 4) {
-			for (int i = 0; i < 4; i++) {
+		// WALL KICK IMPLEMENTATION (DOESNT WORK I THINK)
+		bool okay = true;
+		for (int i = 1; i <= 5; i++) {
+			for (int j = 0; j < 4; j++) {
+				int blockFilledIndex = (SCREEN_HEIGHT - (blockList[j].y + TILE_SIZE)) / TILE_SIZE;
+				if (blockList[j].x >= SCREEN_WIDTH || blockList[j].x < 0 || blockList[j].y >= SCREEN_HEIGHT) {
+					okay = false;
+				}
+				else for (int k = 0; k < blockFilledRows[blockFilledIndex].size(); k++) {
+					if ((blockList[j].x == blockFilledRows[blockFilledIndex][k].x && blockList[j].y == blockFilledRows[blockFilledIndex][k].y) ) {
+						okay = false;
+					}
+				}
+			}
+			if (okay) {
+				curForm = desiredForm;
+				return;
+			}
+			else if (i < 5) {
+				WallKickOffset transform = wkOffsets[type][curForm][i].getOffset(wkOffsets[type][desiredForm][i]);
+				int xOffset = transform.x * TILE_SIZE;
+				int yOffset = transform.y * TILE_SIZE;
 				for (int j = 0; j < 4; j++) {
-					if (tetForm[this->type][curForm][j][i] == 1) {
-						// set the block coords
-						Block *temp = &blockList[index];
-						temp->setPosition(temp->x + ((i - temp->relativeX) * TILE_SIZE), temp->y + ((j - temp->relativeY) * TILE_SIZE));
-						temp->relativeX = i;
-						temp->relativeY = j;
-						index++;
-					}
+					blockList[j] = IRBL[j];
+					blockList[j].x += xOffset;
+					blockList[j].y -= yOffset;
+				}
+			}
+			else {
+				for (int j = 0; j < 4; j++) {
+					blockList[j] = IBL[j];
 				}
 			}
 		}
+
 	}
 
 	void right(vector<Block> blockFilledRows[24]) {

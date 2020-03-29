@@ -34,7 +34,10 @@ void gameOver(vector<Block> *blockFilledRows) {
 	}
 }
 
-
+// TODO
+// FIX WALL KICKS
+// STORE NEXT 3 UPCOMING AND THEY CANT BE THE SAME
+// UI???????????????????
 int main()
 {
 	int frames = 0;
@@ -88,10 +91,10 @@ int main()
 					curSpeed = maxSpeed;
 					break;
 				case sf::Keyboard::X:
-					currentTetromino.rotateRight();	
+					currentTetromino.rotate(blockFilledRows, 1);	
 					break;
 				case sf::Keyboard::Z:
-					currentTetromino.rotateLeft();
+					currentTetromino.rotate(blockFilledRows, -1);
 					break;
 				}
 				break;

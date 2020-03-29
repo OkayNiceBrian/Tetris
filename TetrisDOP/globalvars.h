@@ -37,10 +37,14 @@ WallKickOffset wkOffsets[7][4][5] = {
 	 {WallKickOffset(-1, -1), WallKickOffset(-1, -1), WallKickOffset(-1, -1), WallKickOffset(-1, -1), WallKickOffset(-1, -1)},
 	 {WallKickOffset(-1, 0), WallKickOffset(-1, 0), WallKickOffset(-1, 0), WallKickOffset(-1, 0), WallKickOffset(-1, 0)}},
 	// I
-	{{WallKickOffset(0, 0), WallKickOffset(-1, 0), WallKickOffset(2, 0), WallKickOffset(-1, 0), WallKickOffset(2, 0)},
-	 {WallKickOffset(-1, 0), WallKickOffset(0, 0), WallKickOffset(0, 0), WallKickOffset(0, 1), WallKickOffset(0, -2)},
-	 {WallKickOffset(-1, 1), WallKickOffset(1, 1), WallKickOffset(-2, 1), WallKickOffset(1, 0), WallKickOffset(2, 0)},
-	 {WallKickOffset(0, 1), WallKickOffset(0, 1), WallKickOffset(0, 1), WallKickOffset(0, -1), WallKickOffset(0, 2)}},
+	{{WallKickOffset(0, 0), WallKickOffset(0, 0), WallKickOffset(0, 0), WallKickOffset(0, 0), WallKickOffset(0, 0)},
+	 {WallKickOffset(0, 0), WallKickOffset(1, 0), WallKickOffset(1, -1), WallKickOffset(0, 2), WallKickOffset(1, 2)},
+	 {WallKickOffset(0, 0), WallKickOffset(0, 0), WallKickOffset(0, 0), WallKickOffset(0, 0), WallKickOffset(0, 0)},
+	 {WallKickOffset(0, 0), WallKickOffset(-1, 0), WallKickOffset(-1, -1), WallKickOffset(0, 2), WallKickOffset(-1, 2)}},
+	//{{WallKickOffset(0, 0), WallKickOffset(-1, 0), WallKickOffset(2, 0), WallKickOffset(-1, 0), WallKickOffset(2, 0)},
+	 //{WallKickOffset(-1, 0), WallKickOffset(0, 0), WallKickOffset(0, 0), WallKickOffset(0, 1), WallKickOffset(0, -2)},
+	 //{WallKickOffset(-1, 1), WallKickOffset(1, 1), WallKickOffset(-2, 1), WallKickOffset(1, 0), WallKickOffset(2, 0)},
+	 //{WallKickOffset(0, 1), WallKickOffset(0, 1), WallKickOffset(0, 1), WallKickOffset(0, -1), WallKickOffset(0, 2)}},
 	// L
 	{{WallKickOffset(0, 0), WallKickOffset(0, 0), WallKickOffset(0, 0), WallKickOffset(0, 0), WallKickOffset(0, 0)},
 	 {WallKickOffset(0, 0), WallKickOffset(1, 0), WallKickOffset(1, -1), WallKickOffset(0, 2), WallKickOffset(1, 2)},
