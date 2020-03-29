@@ -15,6 +15,8 @@ int gameSpeed = 30;
 int maxSpeed = 5;
 int curSpeed = 30;
 
+
+
 string blockTextureNames[7] = {
 	"redBlockSprite.png", // Z
 	"yellowBlockSprite.png", // o

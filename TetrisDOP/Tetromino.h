@@ -2,6 +2,8 @@
 #include "SFML/Graphics.hpp"
 #include "Block.h"
 #include "globalvars.h"
+#include <vector>
+using namespace std;
 
 struct Tetromino {
 
@@ -31,6 +33,16 @@ struct Tetromino {
 	void update(sf::RenderWindow * window) {
 		for (int i = 3; i >= 0; i--) {
 			blockList[i].update(window);
+		}
+	}
+
+	void drawUpcoming(sf::RenderWindow * window, int pos) {
+		// pos (0, 1, 2) = (next, 2nd next, 3rd next)
+
+		for (int i = 3; i >= 0; i--) {
+			blockList[i].sprite.setTexture(blockList[i].texture);
+			blockList[i].sprite.setPosition(blockList[i].x + SCREEN_WIDTH / 2 + TILE_SIZE * 2 + 2, blockList[i].y + 100 + (pos * 90));
+			window->draw(blockList[i].sprite);
 		}
 	}
 
@@ -146,9 +158,19 @@ struct Tetromino {
 		}
 	}
 
-	static Tetromino getRandomTetromino() {
-		int randomTetInt = rand() % 7;
+	// inputs are the types of the current/upcoming tetrominos so they are removed from the queue
+	// input -1 to ignore the input(s)
+	static Tetromino getRandomTetromino(int t1, int t2, int t3) {
+		vector<int> v = vector<int>();
+		
+		for (int i = 0; i < 7; i++) {
+			if (t1 != i && t2 != i && t3 != i) {
+				v.push_back(i);
+			}
+		}
 
-		return Tetromino(randomTetInt);
+		int randomTetInt = rand() % v.size();
+
+		return Tetromino(v[randomTetInt]);
 	}
 };
