@@ -44,7 +44,7 @@ struct Tetromino {
 			desiredForm = 3;
 		}
 
-		// initial block listS
+		// initial block list
 		Block IBL[4] = {blockList[0], blockList[1], blockList[2], blockList[3]};
 		// initial rotation block list
 		Block IRBL[4] = {Block(), Block(), Block(), Block()};
@@ -67,9 +67,10 @@ struct Tetromino {
 			}
 		}
 
-		// WALL KICK IMPLEMENTATION (DOESNT WORK I THINK)
-		bool okay = true;
+		// WALL KICK IMPLEMENTATION
+		
 		for (int i = 1; i <= 5; i++) {
+			bool okay = true;
 			for (int j = 0; j < 4; j++) {
 				int blockFilledIndex = (SCREEN_HEIGHT - (blockList[j].y + TILE_SIZE)) / TILE_SIZE;
 				if (blockList[j].x >= SCREEN_WIDTH || blockList[j].x < 0 || blockList[j].y >= SCREEN_HEIGHT) {
