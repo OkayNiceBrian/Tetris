@@ -38,7 +38,6 @@ void gameOver(vector<Block> *blockFilledRows) {
 
 // TODO
 // Do something about blockFilledRows and how inefficient the calculating is for it
-// UI???????????????????
 int main()
 {
 	int frames = 0;
