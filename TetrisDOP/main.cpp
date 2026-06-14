@@ -130,6 +130,7 @@ int main()
 
 		window.draw(backgroundSprite);
 		
+		// Check for current tetromino to stop falling
 		if (frameCount >= curSpeed) {
 			for (int i = 3; i >= 0; i--) {
 				if (currentTetromino.blockList[i].y >= SCREEN_HEIGHT - TILE_SIZE || areBlocksColliding(currentTetromino, blockFilledRows)) {
@@ -151,10 +152,10 @@ int main()
 				}
 			}
 		}
-		
+
+		// update static fallen tetrominos
 		int rowsCleared = 0;
 		for (int i = 0; i < 24; i++) {
-
 			if (blockFilledRows[i].size() >= 10) {
 				rowsCleared++;
 				for (int j = i; j < 23; j++) {
@@ -171,6 +172,10 @@ int main()
 			}
 		}
 
+		// update current tetromino
+		currentTetromino.update(&window);
+
+		// update score
 		switch (rowsCleared) {
 		case 0: score += 0; break;
 		case 1: score += 100; break;
@@ -185,8 +190,6 @@ int main()
 		scoreTxt.setString(scoreStream.str());
 		window.draw(scoreTxt);
 
-		currentTetromino.update(&window);
-
 		// draw upcomings
 		window.draw(upcomingTxt);
 		upcomingTet1.drawUpcoming(&window, 0);
@@ -194,7 +197,7 @@ int main()
 		upcomingTet3.drawUpcoming(&window, 2);
 		
 		if (frameCount >= curSpeed) {
-			// score += 5;
+			score += 5;
 			frameCount = 0;
 		}
 
