@@ -33,7 +33,6 @@ void gameOver(vector<Block> *blockFilledRows) {
 	for (int i = 0; i < 24; i++) {
 		blockFilledRows[i].clear();
 	}
-	
 }
 
 // TODO
